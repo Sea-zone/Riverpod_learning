@@ -21,26 +21,28 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const MyHomePage(),
+      home: const Main(),
     );
   }
 }
 
-class MyHomePage extends StatelessWidget {
-  const MyHomePage({Key? key}) : super(key: key);
+class Main extends ConsumerStatefulWidget {
+  const Main({Key? key}) : super(key: key);
 
   @override
+  _MainState createState() => _MainState();
+}
+
+class _MainState extends ConsumerState<Main> {
+  @override
   Widget build(BuildContext context) {
+    final name = ref.watch(nameProvider);
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Riverpod Provider"),
-        toolbarHeight: 40,
+        title: const Text('Riverpod for StatefulWidget'),
       ),
       body: Center(
-        child: Consumer(builder: (context, ref, child) {
-          final name = ref.watch(nameProvider);
-          return Text(name);
-        }),
+        child: Text(name),
       ),
     );
   }
