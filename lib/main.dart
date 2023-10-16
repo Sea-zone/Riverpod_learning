@@ -35,6 +35,13 @@ class Main extends ConsumerStatefulWidget {
 
 class _MainState extends ConsumerState<Main> {
   @override
+  void initState() {
+    super.initState();
+    final name = ref.read(nameProvider);
+    print(name);
+  }
+
+  @override
   Widget build(BuildContext context) {
     final name = ref.watch(nameProvider);
     return Scaffold(
