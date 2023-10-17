@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:riverpod_setup/counter_demo.dart';
 
-final counterProvider = StateProvider<int>(
-  (ref) => 0,
-);
+final counterProvider =
+    StateNotifierProvider<CounterDemo, int>((ref) => CounterDemo());
 void main() {
   runApp(const ProviderScope(child: MyApp()));
 }
@@ -28,36 +28,21 @@ class MyHomePage extends ConsumerWidget {
   const MyHomePage({super.key});
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final count = ref.watch(counterProvider);
+    final counter = ref.watch(counterProvider);
 
-    ref.listen(counterProvider, ((previous, next) {
-      if (next == 5) {
-        ScaffoldMessenger.of(context)
-            .showSnackBar(SnackBar(content: Text('The value is $next')));
-      }
-    }));
     return Scaffold(
       appBar: AppBar(
-        title: const Text('State Provider'),
-        actions: [
-          IconButton(
-              onPressed: () {
-                ref.refresh(counterProvider);
-                // ref.invalidate(counterProvider);
-              },
-              icon: const Icon(Icons.refresh))
-        ],
+        title: const Text('State Notifiter Provider'),
       ),
       body: Center(
         child: Text(
-          count.toString(),
+          '$counter',
           style: const TextStyle(fontSize: 30),
         ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          ref.read(counterProvider.notifier).update((state) => state + 1);
-          // ref.read(counterProvider.notifier).state++;
+          ref.read(counterProvider.notifier).increment();
         },
         child: const Icon(Icons.add),
       ),
