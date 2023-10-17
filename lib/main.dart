@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final nameProvider = Provider<String>(
-  (ref) {
-    return "Hello Rahul";
-  },
+final counterProvider = StateProvider<int>(
+  (ref) => 0,
 );
 void main() {
   runApp(const ProviderScope(child: MyApp()));
@@ -21,35 +19,34 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const Main(),
+      home: const MyHomePage(),
     );
   }
 }
 
-class Main extends ConsumerStatefulWidget {
-  const Main({Key? key}) : super(key: key);
-
+class MyHomePage extends ConsumerWidget {
+  const MyHomePage({super.key});
   @override
-  _MainState createState() => _MainState();
-}
-
-class _MainState extends ConsumerState<Main> {
-  @override
-  void initState() {
-    super.initState();
-    final name = ref.read(nameProvider);
-    print(name);
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final name = ref.watch(nameProvider);
+  Widget build(BuildContext context, WidgetRef ref) {
+    final count = ref.watch(counterProvider);
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Riverpod for StatefulWidget'),
+        title: const Text('State Provider'),
+        actions: [
+          IconButton(onPressed: () {}, icon: const Icon(Icons.refresh))
+        ],
       ),
       body: Center(
-        child: Text(name),
+        child: Text(
+          count.toString(),
+          style: const TextStyle(fontSize: 30),
+        ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          ref.read(counterProvider.notifier).state++;
+        },
+        child: const Icon(Icons.add),
       ),
     );
   }
