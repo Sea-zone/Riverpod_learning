@@ -44,7 +44,8 @@ class MyHomePage extends ConsumerWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          ref.read(counterProvider.notifier).state++;
+          ref.read(counterProvider.notifier).update((state) => state + 1);
+          // ref.read(counterProvider.notifier).state++;
         },
         child: const Icon(Icons.add),
       ),
