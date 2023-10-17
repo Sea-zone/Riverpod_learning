@@ -33,7 +33,11 @@ class MyHomePage extends ConsumerWidget {
       appBar: AppBar(
         title: const Text('State Provider'),
         actions: [
-          IconButton(onPressed: () {}, icon: const Icon(Icons.refresh))
+          IconButton(
+              onPressed: () {
+                ref.invalidate(counterProvider);
+              },
+              icon: const Icon(Icons.refresh))
         ],
       ),
       body: Center(
