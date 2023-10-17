@@ -29,13 +29,21 @@ class MyHomePage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final count = ref.watch(counterProvider);
+
+    ref.listen(counterProvider, ((previous, next) {
+      if (next == 5) {
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: Text('The value is $next')));
+      }
+    }));
     return Scaffold(
       appBar: AppBar(
         title: const Text('State Provider'),
         actions: [
           IconButton(
               onPressed: () {
-                ref.invalidate(counterProvider);
+                ref.refresh(counterProvider);
+                // ref.invalidate(counterProvider);
               },
               icon: const Icon(Icons.refresh))
         ],
